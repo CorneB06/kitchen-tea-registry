@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Kitchen Tea Registry</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body>
+    <h1>Admin - Kitchen Tea Registry</h1>
+    
+    <!-- Password Prompt -->
+    <div id="password-section" class="card">
+        <h2>Admin Access</h2>
+        <input type="password" id="admin-password" placeholder="Enter admin password">
+        <button onclick="unlockAdmin()">Unlock</button>
+        <p><a href="index.html">Back to Registry</a></p>
+    </div>
+    
+    <!-- Admin Section -->
+    <div id="admin-section" class="card hidden">
+        <div class="card-content">
+            <h2>Add an Item Manually</h2>
+            <input type="text" id="item-name" placeholder="Enter item name">
+            <div id="link-inputs">
+                <input type="url" id="item-link-0" placeholder="Enter link to example">
+            </div>
+            <button onclick="addLinkInput()">Add Another Link</button>
+            <button onclick="addItem()">Add Item</button>
+        </div>
+        
+        <div class="card-content">
+            <h2>Upload Excel File</h2>
+            <input type="file" id="excel-upload" accept=".xlsx, .xls">
+            <button onclick="uploadExcel()">Upload Excel</button>
+        </div>
+        
+        <div class="card-content">
+            <h2>Manage Items</h2>
+            <button onclick="deleteAllItems()">Delete All</button>
+            <button onclick="resetAllChoices()">Reset All Choices</button>
+            <table id="manage-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Item</th>
+                        <th>Example</th>
+                        <th>Selected</th> <!-- New column header -->
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="manage-list"></tbody>
+            </table>
+        </div>
+        
+        <p><a href="index.html">Back to Registry</a></p>
+    </div>
+    
+    <script src="admin.js"></script>
+</body>
+</html>
