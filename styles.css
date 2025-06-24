@@ -1,0 +1,343 @@
+body {
+    font-family: 'Alegreya Sans SC', sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff; 
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.header-content {
+    text-align: center;
+    width: 100%;
+}
+
+.menu {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+h1, h2 {
+    text-align: left;
+    font-family: 'Alegreya Sans SC', sans-serif;
+    color: #4a4e69; /* Retain soft greyish-purple */
+}
+
+#password-section, #admin-section, #remove-section {
+    margin-bottom: 20px;
+}
+
+.hidden {
+    display: none;
+}
+
+input[type="text"], input[type="url"], input[type="password"], input[type="file"] {
+    padding: 5px;
+    margin: 5px;
+    width: 200px;
+    display: block;
+}
+
+button {
+    padding: 5px 10px;
+    margin: 5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+    font-family: 'Alegreya Sans SC', sans-serif;
+}
+
+th {
+    background-color: #f0f0f0;
+}
+
+tr.purchased td {
+    color: grey;
+    text-decoration: line-through;
+}
+
+tr.purchased a {
+    color: grey;
+}
+
+a {
+    color: blue;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.menu {
+    position: relative;
+}
+
+.menu-button {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.dropdown-content {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    padding: 10px;
+    z-index: 1;
+}
+
+.dropdown-content a {
+    display: block;
+    font-family: 'Alegreya Sans SC', sans-serif;
+    color: #4a4e69;
+    text-decoration: none;
+}
+
+.dropdown-content a:hover {
+    background-color: #e0e0e0;
+}
+
+.sub-header {
+    font-size: 1.2em;
+    color: #9a8c98; /* Soft lavender for sub-header */
+    margin: 10px 0 30px;
+}
+
+.palette-image {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    background-color: #f5f7fa; /* Very light pastel blue for table */
+}
+
+th {
+    background-color: #c9d6df; /* Light greyish-blue for header */
+}
+
+tr.purchased td {
+    color: #a3bffa; /* Light greyish-blue for purchased items */
+    text-decoration: line-through;
+}
+
+tr.purchased a {
+    color: #a3bffa; /* Match purchased item color */
+}
+
+.menu-button {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #4a4e69; /* Match header text color */
+}
+
+.dropdown-content {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: #e8ecef; /* Light pastel grey */
+    border: 1px solid #c9d6df;
+    padding: 10px;
+    z-index: 1;
+}
+
+.dropdown-content a {
+    display: block;
+    color: #4a4e69;
+    text-decoration: none;
+}
+
+.dropdown-content a:hover {
+    background-color: #d1d9e6; /* Slightly darker pastel grey on hover */
+}
+
+#manage-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    background-color: #f5f7fa;
+}
+
+#manage-table th:last-child,
+#manage-table td:last-child {
+    width: 120px;
+    text-align: center;
+}
+
+#manage-table td[contenteditable] {
+    padding: 5px;
+    border: 1px solid #ccc;
+}
+
+button {
+    padding: 8px 16px;
+    margin: 5px;
+    background-color: #c9d6df; /* Light greyish-blue */
+    border: none;
+    border-radius: 8px; /* Rounded corners */
+    cursor: pointer;
+    font-family: 'Alegreya Sans SC', sans-serif;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #a3bffa; /* Lighter blue on hover */
+}
+
+.card {
+    background-color: #f5f7fa; /* Very light pastel blue */
+    border-radius: 10px; /* Rounded card edges */
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.card-content {
+    margin-bottom: 15px;
+}
+
+.card-content:last-child {
+    margin-bottom: 0;
+}
+
+#manage-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    background-color: #f5f7fa;
+    border-radius: 8px; /* Rounded table edges */
+    overflow: hidden;
+}
+
+#manage-table th:last-child,
+#manage-table td:last-child {
+    width: 120px;
+    text-align: center;
+}
+
+#manage-table td[contenteditable] {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#manage-table th,
+#manage-table td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+    font-family: 'Alegreya Sans SC', sans-serif;
+}
+
+#manage-table th {
+    background-color: #c9d6df; /* Light greyish-blue header */
+}
+
+.edit-mode {
+    background-color: #e8ecef; /* Light pastel grey highlight */
+}
+
+.edit-mode td[contenteditable] {
+    border: 2px solid #a3bffa; /* Light blue border for editable cells */
+}
+
+#manage-table button:hover {
+    background-color: #a3bffa;
+}
+
+.edit-mode {
+    background-color: #e8ecef; /* Light pastel grey highlight */
+}
+
+.edit-mode td[contenteditable] {
+    border: 2px solid #a3bffa; /* Light blue border for editable cells */
+}
+
+#email-prompt {
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f5f7fa;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+#email-prompt input {
+    padding: 8px;
+    margin: 10px 0;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    width: 100%;
+}
+
+#email-prompt button {
+    padding: 8px 16px;
+    margin: 5px;
+    background-color: #c9d6df;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+#email-prompt button:hover {
+    background-color: #a3bffa;
+}
+
+#session-actions-wrapper {
+    min-height: 100vh;
+    display: block; /* Or remove entirely */
+}
+
+#registry-content {
+    width: 100%;
+    padding-top: 20px;
+}
+
+#session-actions-container {
+    max-width: 100%;
+    margin: 30px 0 20px 0;
+    text-align: center;
+    position: relative;
+}
+
+#session-actions-container button {
+    padding: 12px 24px;
+    font-size: 16px;
+    background-color: #c9d6df;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+#session-actions-container button:hover {
+    background-color: #a3bffa;
+}

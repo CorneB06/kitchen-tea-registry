@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kitchen Tea Registry</title>
+    <link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans+SC&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+    <!-- Email Prompt -->
+    <div id="email-prompt" class="card">
+        <h2>Welcome to Kitchen Tea Registry</h2>
+        <p>Please enter your email to participate:</p>
+        <input type="email" id="user-email" placeholder="Enter your email" />
+        <button onclick="setEmail()">Submit</button>
+    </div>
+
+    <!-- Registry Content -->
+    <div id="session-actions-wrapper" style="display: none;">
+        <div id="registry-content">
+
+            <!-- Header -->
+            <div class="header-container">
+                <div class="header-content">
+                    <h1>Kitchen Tea Registry</h1>
+                    <h2 class="sub-header">
+                        This list includes links for inspiration, but you're not limited to these stores — feel free to shop wherever is easiest or makes the most sense for you. Please feel free to add anything else you think would be special or useful!
+                    </h2>
+                    <img src="Colour scheme.jpg" alt="Pastels & Stone Colour Palette" class="palette-image" />
+                </div>
+                <div class="menu">
+                    <button class="menu-button">☰</button>
+                    <div class="dropdown-content hidden">
+                        <a href="admin.html">Admin</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Save & Submit Button -->
+            <div id="session-actions-container" class="card">
+                <button onclick="saveSession()">Save and Submit</button>
+            </div>
+
+            <!-- Registry Table -->
+            <h2>Available Items</h2>
+            <table id="registry-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Item</th>
+                        <th>Example</th>
+                        <th>I'm getting this</th>
+                    </tr>
+                </thead>
+                <tbody id="registry-list"></tbody>
+            </table>
+
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
