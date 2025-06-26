@@ -6,21 +6,31 @@
     <title>Kitchen Tea Registry</title>
     <link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans+SC&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
-</head>
-<body>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Remove external Supabase and XLSX scripts; handle via module -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script> -->
 
+    <link rel="icon" href="data:,">
+    
+</head>
+
+<body>
     <!-- Email Prompt -->
-    <div id="email-prompt" class="card">
+    <div id="email-prompt" class="card" style="max-width: 400px; margin: 20px auto; padding: 20px; text-align: center; display: block;">
         <h2>Welcome to Kitchen Tea Registry</h2>
         <p>Please enter your email to participate:</p>
-        <input type="email" id="user-email" placeholder="Enter your email" />
+        <input type="email" id="user-email" placeholder="Enter your email" style="padding: 8px; margin: 10px 0; border-radius: 4px; border: 1px solid #ccc;" />
         <button onclick="setEmail()">Submit</button>
     </div>
 
     <!-- Registry Content -->
-    <div id="session-actions-wrapper" style="display: none;">
+    <div id="session-actions-wrapper" style="min-height: 100vh; display: flex; flex-direction: column; align-items: center; display: none;">
+        <div id="session-actions-container" class="card" style="max-width: 400px; margin: 20px 0; padding: 20px; text-align: center;">
+            <button onclick="saveSession()">Save and Submit</button>
+        </div>
         <div id="registry-content">
-
             <!-- Header -->
             <div class="header-container">
                 <div class="header-content">
@@ -38,11 +48,6 @@
                 </div>
             </div>
 
-            <!-- Save & Submit Button -->
-            <div id="session-actions-container" class="card">
-                <button onclick="saveSession()">Save and Submit</button>
-            </div>
-
             <!-- Registry Table -->
             <h2>Available Items</h2>
             <table id="registry-table">
@@ -56,10 +61,28 @@
                 </thead>
                 <tbody id="registry-list"></tbody>
             </table>
-
         </div>
     </div>
 
-    <script src="script.js"></script>
+<script>
+    window.setEmail = null;
+    import('./script.js').then(module => {
+        window.setEmail = module.setEmail;
+        window.saveSession = module.saveSession;
+        window.togglePurchased = module.togglePurchased;
+        window.displayItems = module.displayItems;
+
+        const userEmail = localStorage.getItem('userEmail');
+        const lastSessionTime = localStorage.getItem('lastSessionTime');
+        const isSessionValid = userEmail && lastSessionTime && (Date.now() - lastSessionTime < 30 * 60 * 1000);
+
+        // ✅ Don't call setEmail at all. Let the DOMContentLoaded in script.js handle it
+        // script.js already checks if session is valid and handles UI
+
+        console.log('[INDEX] App loaded. Session valid:', isSessionValid);
+    }).catch(err => console.error('Module load error:', err));
+</script>
+
+
 </body>
 </html>

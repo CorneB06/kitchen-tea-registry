@@ -1,0 +1,23 @@
+{
+  "name": "kitchen-tea-registry",
+  "version": "1.0.0",
+  "main": "admin.js",
+  "scripts": {
+  "start": "parcel index.html --open"
+},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CorneB06/kitchen-tea-registry.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CorneB06/kitchen-tea-registry/issues"
+  },
+  "homepage": "https://github.com/CorneB06/kitchen-tea-registry#readme",
+  "description": "",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.50.1"
+  }
+}
