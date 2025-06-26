@@ -1,88 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Kitchen Tea Registry</title>
-    <link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans+SC&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css" />
-    
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <!-- Remove external Supabase and XLSX scripts; handle via module -->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script> -->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script> -->
-
-    <link rel="icon" href="data:,">
-    
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kitchen Tea Registry</title>
+  <link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans+SC&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="data:," />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    /* Ensure dropdown hides when class is applied */
+    .hidden {
+      display: none;
+    }
+  </style>
 </head>
 
 <body>
-    <!-- Email Prompt -->
-    <div id="email-prompt" class="card" style="max-width: 400px; margin: 20px auto; padding: 20px; text-align: center; display: block;">
-        <h2>Welcome to Kitchen Tea Registry</h2>
-        <p>Please enter your email to participate:</p>
-        <input type="email" id="user-email" placeholder="Enter your email" style="padding: 8px; margin: 10px 0; border-radius: 4px; border: 1px solid #ccc;" />
-        <button onclick="setEmail()">Submit</button>
+  <!-- Email Prompt -->
+  <div id="email-prompt" class="card" style="max-width: 400px; margin: 20px auto; padding: 20px; text-align: center;">
+    <h2>Welcome to Kitchen Tea Registry</h2>
+    <p>Please enter your email to participate:</p>
+    <input type="email" id="user-email" placeholder="Enter your email" style="padding: 8px; margin: 10px 0; border-radius: 4px; border: 1px solid #ccc;" />
+    <button onclick="setEmail()">Submit</button>
+  </div>
+
+  <!-- Registry Content -->
+  <div id="session-actions-wrapper" style="min-height: 100vh; display: none; flex-direction: column; align-items: center;">
+    <div id="session-actions-container" class="card" style="max-width: 400px; margin: 20px 0; padding: 20px; text-align: center;">
+      <button onclick="saveSession()">Save and Submit</button>
     </div>
 
-    <!-- Registry Content -->
-    <div id="session-actions-wrapper" style="min-height: 100vh; display: flex; flex-direction: column; align-items: center; display: none;">
-        <div id="session-actions-container" class="card" style="max-width: 400px; margin: 20px 0; padding: 20px; text-align: center;">
-            <button onclick="saveSession()">Save and Submit</button>
+    <div id="registry-content">
+      <!-- Header -->
+      <div class="header-container">
+        <div class="header-content">
+          <h1>Kitchen Tea Registry</h1>
+          <h2 class="sub-header">
+            This list includes links for inspiration, but you're not limited to these stores — feel free to shop wherever is easiest or makes the most sense for you.
+          </h2>
+          <img src="Colour scheme.jpg" alt="Pastels & Stone Colour Palette" class="palette-image" />
         </div>
-        <div id="registry-content">
-            <!-- Header -->
-            <div class="header-container">
-                <div class="header-content">
-                    <h1>Kitchen Tea Registry</h1>
-                    <h2 class="sub-header">
-                        This list includes links for inspiration, but you're not limited to these stores — feel free to shop wherever is easiest or makes the most sense for you. Please feel free to add anything else you think would be special or useful!
-                    </h2>
-                    <img src="Colour scheme.jpg" alt="Pastels & Stone Colour Palette" class="palette-image" />
-                </div>
-                <div class="menu">
-                    <button class="menu-button">☰</button>
-                    <div class="dropdown-content hidden">
-                        <a href="admin.html">Admin</a>
-                    </div>
-                </div>
-            </div>
+        <div class="menu">
+          <button class="menu-button">☰</button>
+          <div class="dropdown-content hidden">
+            <a href="admin.html">Admin</a>
+          </div>
+        </div>
+      </div>
 
-            <!-- Registry Table -->
-            <h2>Available Items</h2>
-            <table id="registry-table">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Item</th>
-                        <th>Example</th>
-                        <th>I'm getting this</th>
-                    </tr>
-                </thead>
-                <tbody id="registry-list"></tbody>
-            </table>
-        </div>
+      <!-- Registry Table -->
+      <h2>Available Items</h2>
+      <table id="registry-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Item</th>
+            <th>Example</th>
+            <th>I'm getting this</th>
+          </tr>
+        </thead>
+        <tbody id="registry-list"></tbody>
+      </table>
     </div>
+  </div>
 
-<script>
-    window.setEmail = null;
-    import('./script.js').then(module => {
-        window.setEmail = module.setEmail;
-        window.saveSession = module.saveSession;
-        window.togglePurchased = module.togglePurchased;
-        window.displayItems = module.displayItems;
+  <!-- ✅ Script loaded at the very end -->
+  <script type="module">
+    import * as registry from './script.js';
 
-        const userEmail = localStorage.getItem('userEmail');
-        const lastSessionTime = localStorage.getItem('lastSessionTime');
-        const isSessionValid = userEmail && lastSessionTime && (Date.now() - lastSessionTime < 30 * 60 * 1000);
+    // Make functions globally available to HTML (e.g., for button clicks)
+    window.setEmail = registry.setEmail;
+    window.saveSession = registry.saveSession;
+    window.togglePurchased = registry.togglePurchased;
+    window.displayItems = registry.displayItems;
+    window.init = registry.init;
 
-        // ✅ Don't call setEmail at all. Let the DOMContentLoaded in script.js handle it
-        // script.js already checks if session is valid and handles UI
+    // Wait until the DOM is fully ready
+    document.addEventListener('DOMContentLoaded', async () => {
+      registry.init(); // Menu button listener setup
 
-        console.log('[INDEX] App loaded. Session valid:', isSessionValid);
-    }).catch(err => console.error('Module load error:', err));
-</script>
+      const userEmail = localStorage.getItem('userEmail');
+      const lastSessionTime = localStorage.getItem('lastSessionTime');
+      const isSessionActive = userEmail && (Date.now() - lastSessionTime < 30 * 60 * 1000);
 
-
+      if (isSessionActive) {
+        document.getElementById('email-prompt').style.display = 'none';
+        document.getElementById('session-actions-wrapper').style.display = 'flex';
+        await registry.displayItems();
+      } else {
+        document.getElementById('email-prompt').style.display = 'block';
+        document.getElementById('session-actions-wrapper').style.display = 'none';
+      }
+    });
+  </script>
 </body>
 </html>

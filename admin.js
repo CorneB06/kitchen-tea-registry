@@ -267,19 +267,24 @@ function deleteAllItems() {
     }
 }
 
-function resetAllChoices() {
-    if (confirm('Are you sure you want to reset all choices? This will make all items available for selection again.')) {
-        supabase.from('registry_items').update({ purchased_by: null }).then(({ error }) => {
-            if (error) {
-                console.error('Error resetting choices:', error);
-                alert('Failed to reset choices: ' + error.message);
-            } else {
-                displayManageItems();
-                alert('All choices have been reset!');
-            }
-        });
-    }
+async function resetAllChoices() {
+  if (!confirm('Are you sure you want to clear all selections?')) return;
+  try {
+    const { error } = await supabase
+      .from('registry_items')
+      .update({ purchased_by: null })
+      .not('purchased_by', 'is', null);  
+      // ← Only rows where purchased_by IS NOT NULL
+
+    if (error) throw error;
+    await displayManageItems();
+  } catch (error) {
+    console.error('Error resetting choices:', error);
+    alert('Failed to reset choices: ' + error.message);
+  }
 }
+
+
 
 function addLinkInputInCell(event, id) {
     event.preventDefault();

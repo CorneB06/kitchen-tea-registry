@@ -6,7 +6,7 @@ if (!createClient) {
 }
 const supabase = createClient('https://zlrqwipaczylupmrhnfm.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpscnF3aXBhY3p5bHVwbXJobmZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA3NzU1NTYsImV4cCI6MjA2NjM1MTU1Nn0.13iH0cqSpLI2_Pw-HABQG7Heyx9yDxZ2N8j7fCvSAjY');
 let userEmail = localStorage.getItem('userEmail');
-const SESSION_TIMEOUT = 1 * 60 * 1000; // 1 minute
+const SESSION_TIMEOUT = 30 * 60 * 1000; // 1 minute
 
 async function checkSession() {
     const lastSessionTime = localStorage.getItem('lastSessionTime');
@@ -161,35 +161,18 @@ async function updateSelection(id, checked) {
 
 // Initialize page and set up event listeners
 export function init() {
-    const menuButton = document.querySelector('.menu-button');
-    const dropdown = document.querySelector('.dropdown-content');
-    console.log('Initializing menu button:', menuButton, dropdown);
+  const menuButton = document.querySelector('.menu-button');
+  const dropdown   = document.querySelector('.dropdown-content');
+  console.log('🔍 init() sees menuButton =', menuButton);
+  console.log('🔍 init() sees dropdown   =', dropdown);
 
-    if (menuButton && dropdown) {
-        menuButton.addEventListener('click', () => {
-            dropdown.classList.toggle('hidden');
-        });
-    } else {
-        console.warn('Menu or dropdown not found.');
-    }
+  if (menuButton && dropdown) {
+    menuButton.addEventListener('click', () => {
+      console.log('☰ Menu clicked, toggling dropdown');
+      dropdown.classList.toggle('hidden');
+    });
+  }
 }
-
-
-window.addEventListener('pageshow', async () => {
-    console.log('Page show event triggered');
-    init(); // Reattach all listeners reliably
-
-    if (userEmail && await checkSession()) {
-        document.getElementById('email-prompt').style.display = 'none';
-        document.getElementById('session-actions-wrapper').style.display = 'flex';
-        await displayItems();
-    } else {
-        document.getElementById('email-prompt').style.display = 'block';
-        document.getElementById('session-actions-wrapper').style.display = 'none';
-    }
-});
-
-
 
 window.displayItems = displayItems;
 window.updateSelection = updateSelection;
