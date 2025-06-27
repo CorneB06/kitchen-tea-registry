@@ -60,10 +60,16 @@ export async function togglePurchased(id) {
     }
 }
 
-export async function saveSession() {
-    localStorage.setItem('lastSessionTime', Date.now());
-    alert('Your selections have been saved. You can edit them later with your email.');
+// 1) Mark session as saved & extend timeout
+export function completeRegistry() {
+  // 1) Clear session data so returning users start fresh
+  localStorage.removeItem('userEmail');
+  localStorage.removeItem('lastSessionTime');
+  
+  // 2) Redirect to the thank-you page
+  window.location.href = 'thank-you.html';
 }
+
 
 export async function displayItems() {
     try {

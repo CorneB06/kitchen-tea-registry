@@ -18,18 +18,15 @@
 
 <body>
   <!-- Email Prompt -->
-  <div id="email-prompt" class="card" style="max-width: 400px; margin: 20px auto; padding: 20px; text-align: center;">
+  <div id="email-prompt" class="card">
     <h2>Welcome to Kitchen Tea Registry</h2>
     <p>Please enter your email to participate:</p>
-    <input type="email" id="user-email" placeholder="Enter your email" style="padding: 8px; margin: 10px 0; border-radius: 4px; border: 1px solid #ccc;" />
+    <input type="email" id="user-email" placeholder="Enter your email" />
     <button onclick="setEmail()">Submit</button>
   </div>
 
   <!-- Registry Content -->
   <div id="session-actions-wrapper" style="min-height: 100vh; display: none; flex-direction: column; align-items: center;">
-    <div id="session-actions-container" class="card" style="max-width: 400px; margin: 20px 0; padding: 20px; text-align: center;">
-      <button onclick="saveSession()">Save and Submit</button>
-    </div>
 
     <div id="registry-content">
       <!-- Header -->
@@ -49,6 +46,12 @@
         </div>
       </div>
 
+    <!-- Moved Save & Submit here -->
+    <div id="session-actions-container" class="card" style="max-width:400px; margin:20px auto; padding:20px; text-align:center;">
+      <button id="save-btn" onclick="saveSession()">Save & Submit</button>
+      <button id="done-btn" onclick="completeRegistry()" style="margin-left:1rem;">Exit</button>
+    </div>
+
       <!-- Registry Table -->
       <h2>Available Items</h2>
       <table id="registry-table">
@@ -65,34 +68,35 @@
     </div>
   </div>
 
-  <!-- ✅ Script loaded at the very end -->
+    <!-- ✅ Script loaded at the very end of body -->
   <script type="module">
-    import * as registry from './script.js';
+  import * as registry from './script.js';
 
-    // Make functions globally available to HTML (e.g., for button clicks)
-    window.setEmail = registry.setEmail;
-    window.saveSession = registry.saveSession;
-    window.togglePurchased = registry.togglePurchased;
-    window.displayItems = registry.displayItems;
-    window.init = registry.init;
+  window.setEmail        = registry.setEmail;
+  window.saveSession     = registry.saveSession;
+  window.togglePurchased = registry.togglePurchased;
+  window.displayItems    = registry.displayItems;
+  window.completeRegistry= registry.completeRegistry;
+  window.init            = registry.init;
 
-    // Wait until the DOM is fully ready
-    document.addEventListener('DOMContentLoaded', async () => {
-      registry.init(); // Menu button listener setup
+  document.addEventListener('DOMContentLoaded', async () => {
+    registry.init();
 
-      const userEmail = localStorage.getItem('userEmail');
-      const lastSessionTime = localStorage.getItem('lastSessionTime');
-      const isSessionActive = userEmail && (Date.now() - lastSessionTime < 30 * 60 * 1000);
+    const userEmail       = localStorage.getItem('userEmail');
+    const lastSessionTime = localStorage.getItem('lastSessionTime');
+    const isSessionActive = userEmail && (Date.now() - lastSessionTime < 30 * 60 * 1000);
 
-      if (isSessionActive) {
-        document.getElementById('email-prompt').style.display = 'none';
-        document.getElementById('session-actions-wrapper').style.display = 'flex';
-        await registry.displayItems();
-      } else {
-        document.getElementById('email-prompt').style.display = 'block';
-        document.getElementById('session-actions-wrapper').style.display = 'none';
-      }
-    });
-  </script>
+    if (isSessionActive) {
+      document.getElementById('email-prompt').style.display            = 'none';
+      document.getElementById('session-actions-wrapper').style.display = 'flex';
+      await registry.displayItems();
+    } else {
+      document.getElementById('email-prompt').style.display            = 'block';
+      document.getElementById('session-actions-wrapper').style.display = 'none';
+    }
+  });
+</script>
+
 </body>
 </html>
+

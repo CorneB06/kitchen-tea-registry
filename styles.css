@@ -25,8 +25,33 @@ body {
     right: 10px;
 }
 
+/* Email prompt card */
+#email-prompt {
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 20px;
+  text-align: center;    /* you can leave this here, and drop the inline */
+}
+
+/* Center the header and paragraph */
+#email-prompt h2,
+#email-prompt p {
+  text-align: center;    /* ensures they stay centered even if parent style changes */
+  margin: 0.5em 0;
+}
+
+/* Style the input and button uniformly */
+#email-prompt input,
+#email-prompt button {
+  display: block;
+  width: 100%;
+  max-width: 300px;
+  margin: 8px auto;
+}
+
+
 h1, h2 {
-    text-align: left;
+    text-align: center;
     font-family: 'Alegreya Sans SC', sans-serif;
     color: #4a4e69; /* Retain soft greyish-purple */
 }
@@ -683,4 +708,37 @@ button:hover {
 
 #session-actions-container button:hover {
     background-color: #a3bffa;
+}
+
+/* Center everything inside the thank-you card via flexbox */
+#thank-you {
+  display: flex;
+  flex-direction: column;
+  align-items: center;  /* horizontally center all children */
+  text-align: center;    /* also center inline text */
+}
+
+
+/* Explicitly center the thank-you heading */
+#thank-you h1 {
+  text-align: center !important;
+}
+
+
+/* Add spacing for the heading and paragraph */
+#thank-you h1,
+#thank-you p {
+  margin: 0.5em 0;
+}
+
+/* Make the Return button sit nicely */
+#thank-you a {
+  display: inline-block;
+  margin-top: 1.5em;
+}
+
+#thank-you button {
+  padding: 0.5em 1em;
+  font-size: 1rem;
+  cursor: pointer;
 }
