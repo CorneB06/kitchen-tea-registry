@@ -1,184 +1,147 @@
-// Use CDN for Supabase client
-const { createClient } = window.supabase; // Assuming Supabase is loaded via CDN
-if (!createClient) {
-    console.error('Supabase client not loaded. Check CDN or network.');
-    throw new Error('Supabase not available');
-}
-const supabase = createClient('https://zlrqwipaczylupmrhnfm.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpscnF3aXBhY3p5bHVwbXJobmZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA3NzU1NTYsImV4cCI6MjA2NjM1MTU1Nn0.13iH0cqSpLI2_Pw-HABQG7Heyx9yDxZ2N8j7fCvSAjY');
-let userEmail = localStorage.getItem('userEmail');
-const SESSION_TIMEOUT = 30 * 60 * 1000; // 1 minute
+// Initialize Supabase client (using the global from the CDN)
+const { createClient } = window.supabase;
+const supabase = createClient(
+  'https://zlrqwipaczylupmrhnfm.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpscnF3aXBhY3p5bHVwbXJobmZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA3NzU1NTYsImV4cCI6MjA2NjM1MTU1Nn0.13iH0cqSpLI2_Pw-HABQG7Heyx9yDxZ2N8j7fCvSAjY'
+);
 
-async function checkSession() {
-    const lastSessionTime = localStorage.getItem('lastSessionTime');
-    return lastSessionTime ? Date.now() - lastSessionTime < SESSION_TIMEOUT : false;
-}
-
-export function setEmail() {
-    const emailInput = document.getElementById('user-email');
-    if (!emailInput) {
-        console.warn('No email input field found. Skipping setEmail().');
-        return;
-    }
-
-    const email = emailInput.value.trim();
-    console.log('Setting email:', email);
-
-    if (email && email.includes('@')) {
-        userEmail = email.toLowerCase();
-        localStorage.setItem('userEmail', userEmail);
-        localStorage.setItem('lastSessionTime', Date.now());
-        document.getElementById('email-prompt').style.display = 'none';
-        document.getElementById('session-actions-wrapper').style.display = 'flex';
-        displayItems();
-    } else {
-        alert('Please enter a valid email address.');
-    }
+// 1) Email submission
+export async function setEmail() {
+  const emailInput = document.getElementById('user-email');
+  const email = emailInput?.value.trim();
+  if (!email || !email.includes('@')) {
+    alert('Please enter a valid email address.');
+    return;
+  }
+  localStorage.setItem('userEmail', email.toLowerCase());
+  localStorage.setItem('lastSessionTime', Date.now());
+  document.getElementById('email-prompt').style.display = 'none';
+  document.getElementById('session-actions-wrapper').style.display = 'flex';
+  await displayItems();
 }
 
-
-export async function togglePurchased(id) {
-    try {
-        const { data: item, error } = await supabase
-            .from('registry_items')
-            .select('*')
-            .eq('id', id)
-            .single();
-        if (error) throw error;
-        else if (item.purchased_by && item.purchased_by !== userEmail) {
-            alert('This item is claimed by another user.');
-        } else {
-            const newPurchasedBy = item.purchased_by === userEmail ? null : userEmail;
-            const { error: updateError } = await supabase
-                .from('registry_items')
-                .update({ purchased_by: newPurchasedBy })
-                .eq('id', id);
-            if (updateError) throw updateError;
-            await displayItems();
-        }
-    } catch (error) {
-        console.error('Error in togglePurchased:', error.message);
-    }
+// 2) Save & Submit — extend the session
+export async function saveSession() {
+  localStorage.setItem('lastSessionTime', Date.now());
+  alert('Your selections have been saved! You can return to update within 30 minutes.');
 }
 
-// 1) Mark session as saved & extend timeout
+// 3) Done / Exit — clear session and thank-you redirect
 export function completeRegistry() {
-  // 1) Clear session data so returning users start fresh
   localStorage.removeItem('userEmail');
   localStorage.removeItem('lastSessionTime');
-  
-  // 2) Redirect to the thank-you page
   window.location.href = 'thank-you.html';
 }
 
-
+// 4) Fetch and render registry items
 export async function displayItems() {
-    try {
-        const { data: registryItems, error } = await supabase.from('registry_items').select('*').order('item_name', { ascending: true });
-        if (error) throw error;
-        console.log('Fetched items:', registryItems);
-        const list = document.getElementById('registry-list');
-        if (!list) {
-            console.error('Registry list element not found');
-            alert('Error: Table not found. Check HTML structure.');
-            return;
-        }
-        list.innerHTML = '';
-        registryItems.forEach((item, index) => {
-            console.log('Rendering item:', item.id, item.item_name, item.example_urls);
-            const tr = document.createElement('tr');
-            const isMine = item.purchased_by === userEmail;
-            if (item.purchased_by) {
-                tr.style.textDecoration = 'line-through';
-                tr.style.color = 'grey';
-                tr.style.opacity = '0.6';
-                if (isMine) {
-                    tr.title = 'You selected this item';
-                } else {
-                    tr.title = 'This item is already selected by someone else';
-                }
-            }
+  try {
+    const { data: items, error } = await supabase
+      .from('registry_items')
+      .select('*')
+      .order('item_name', { ascending: true });
+    if (error) throw error;
 
-            const isPurchased = item.purchased_by !== null;
-            tr.innerHTML = `
-                <td>${index + 1}</td>
-                <td>${item.item_name}</td>
-                <td class="link-cell">
-                    ${item.example_urls && item.example_urls.length > 0 ? 
-                        item.example_urls.map((url, i) => `<a href="${url}" target="_blank">See example ${i + 1}</a>`).join('<br>') : 
-                        ''
-                    }
-                </td>
-                <td>
-                    <input type="checkbox" ${isPurchased ? (isMine ? 'checked': 'disabled checked') : ''} onchange="updateSelection('${item.id}', this.checked)">
-                </td>
-            `;
-            list.appendChild(tr);
+    const list = document.getElementById('registry-list');
+    list.innerHTML = '';
+    const userEmail = localStorage.getItem('userEmail') || '';
+
+    items.forEach((item, idx) => {
+      const tr = document.createElement('tr');
+      const isPurchased = item.purchased_by !== null;
+      const isMine      = item.purchased_by === userEmail;
+
+      // Apply visual style if claimed
+      if (isPurchased) {
+        tr.style.textDecoration = 'line-through';
+        tr.style.opacity        = '0.6';
+      }
+
+      // Build the row HTML without inline handlers
+        tr.innerHTML = `
+        <td>${idx + 1}</td>
+        <td>${item.item_name}</td>
+        <td class="link-cell">
+            ${item.example_urls.map((u,i)=>
+            `<a href="${u}" target="_blank">See example ${i+1}</a>`
+            ).join('<br>')}
+        </td>
+        <td>
+            <input type="checkbox" ${isPurchased
+            ? (isMine ? 'checked' : 'disabled checked')
+            : ''}>
+        </td>
+        `;
+
+      // Append the row first
+      list.appendChild(tr);
+
+        const cb = tr.querySelector('input[type="checkbox"]');
+        cb.addEventListener('change', () => {
+        updateSelection(item.id, cb.checked);
         });
-    } catch (error) {
-        console.error('Error in displayItems:', error);
-        alert('Failed to load items: ' + error.message);
-    }
-}
 
 
-async function updateSelection(id, checked) {
-    const email = userEmail;
-    console.log('Email entered:', email);  // ✅ Add this line
-
-    if (!email) {
-        alert('Please enter your email before selecting an item.');
-        displayItems();  // ✅ Re-render the table
-        return;
-    }
-
-    const { data: item, error } = await supabase
-        .from('registry_items')
-        .select('purchased_by')
-        .eq('id', id)
-        .single();
-
-    if (error || !item) {
-        console.error('Error fetching item:', error);
-        alert('Error checking item ownership.');
-        return;
-    }
-
-    if (item.purchased_by && item.purchased_by !== email) {
-        alert('Sorry, this item was already selected by someone else.');
-        displayItems(); // refresh to undo any visual changes
-        return;
-    }
-
-    const updatedPurchasedBy = checked ? email : null;
-
-    const { error: updateError } = await supabase
-        .from('registry_items')
-        .update({ purchased_by: updatedPurchasedBy })
-        .eq('id', id);
-
-    if (updateError) {
-        console.error('Error updating selection:', updateError);
-        alert('Error saving your selection.');
-    }
-
-    displayItems(); // re-render the list
-}
-
-
-// Initialize page and set up event listeners
-export function init() {
-  const menuButton = document.querySelector('.menu-button');
-  const dropdown   = document.querySelector('.dropdown-content');
-  console.log('🔍 init() sees menuButton =', menuButton);
-  console.log('🔍 init() sees dropdown   =', dropdown);
-
-  if (menuButton && dropdown) {
-    menuButton.addEventListener('click', () => {
-      console.log('☰ Menu clicked, toggling dropdown');
-      dropdown.classList.toggle('hidden');
+      // Now wire up the checkbox event listener
+      const checkbox = tr.querySelector('input[type="checkbox"]');
+      if (checkbox) {
+        checkbox.addEventListener('change', () => {
+          updateSelection(item.id, checkbox.checked);
+        });
+      }
     });
+  } catch (e) {
+    console.error('displayItems error:', e);
   }
 }
 
-window.displayItems = displayItems;
-window.updateSelection = updateSelection;
+
+// 5) Update selection handler
+export async function updateSelection(id, checked) {
+  const email = localStorage.getItem('userEmail');
+  if (!email) {
+    alert('Please enter your email first.');
+    return;
+  }
+  const { data: row, error } = await supabase
+    .from('registry_items')
+    .select('purchased_by')
+    .eq('id', id)
+    .single();
+  if (error) { console.error(error); return; }
+
+  if (row.purchased_by && row.purchased_by !== email) {
+    alert('Already claimed by another.');
+    await displayItems();
+    return;
+  }
+
+  const { error: upd } = await supabase
+    .from('registry_items')
+    .update({ purchased_by: checked ? email : null })
+    .eq('id', id);
+  if (upd) { console.error(upd); return; }
+  await displayItems();
+}
+
+// 6) Menu button wiring AND top‐level button hookups
+export function init() {
+  // Supabase client setup (if not already done globally)
+  // const supabase = createClient(...);
+
+  // Menu dropdown
+  const menuButton = document.querySelector('.menu-button');
+  const dropdown   = document.querySelector('.dropdown-content');
+  if (menuButton && dropdown) {
+    menuButton.addEventListener('click', () => dropdown.classList.toggle('hidden'));
+  }
+
+  // Email submit
+  document.getElementById('email-submit-btn')?.addEventListener('click', setEmail);
+
+  // Save & Submit
+  document.getElementById('save-btn')?.addEventListener('click', saveSession);
+
+  // Done / Exit
+  document.getElementById('done-btn')?.addEventListener('click', completeRegistry);
+}

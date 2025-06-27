@@ -22,7 +22,7 @@
     <h2>Welcome to Kitchen Tea Registry</h2>
     <p>Please enter your email to participate:</p>
     <input type="email" id="user-email" placeholder="Enter your email" />
-    <button onclick="setEmail()">Submit</button>
+    <button id="email-submit-btn">Submit</button>
   </div>
 
   <!-- Registry Content -->
@@ -48,8 +48,8 @@
 
     <!-- Moved Save & Submit here -->
     <div id="session-actions-container" class="card" style="max-width:400px; margin:20px auto; padding:20px; text-align:center;">
-      <button id="save-btn" onclick="saveSession()">Save & Submit</button>
-      <button id="done-btn" onclick="completeRegistry()" style="margin-left:1rem;">Exit</button>
+      <button id="save-btn">Save & Submit</button>
+      <button id="done-btn">Done/Exit</button>
     </div>
 
       <!-- Registry Table -->
@@ -68,34 +68,31 @@
     </div>
   </div>
 
-    <!-- ✅ Script loaded at the very end of body -->
+  <!-- Load Supabase client via CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
+  <!-- ✅ Script loaded at the very end of body -->
   <script type="module">
-  import * as registry from './script.js';
-
-  window.setEmail        = registry.setEmail;
-  window.saveSession     = registry.saveSession;
-  window.togglePurchased = registry.togglePurchased;
-  window.displayItems    = registry.displayItems;
-  window.completeRegistry= registry.completeRegistry;
-  window.init            = registry.init;
+  import { init, displayItems } from './script.js';
 
   document.addEventListener('DOMContentLoaded', async () => {
-    registry.init();
+    init();
 
     const userEmail       = localStorage.getItem('userEmail');
     const lastSessionTime = localStorage.getItem('lastSessionTime');
-    const isSessionActive = userEmail && (Date.now() - lastSessionTime < 30 * 60 * 1000);
-
+    const isSessionActive = userEmail && (Date.now() - lastSessionTime < 30*60*1000);
     if (isSessionActive) {
       document.getElementById('email-prompt').style.display            = 'none';
       document.getElementById('session-actions-wrapper').style.display = 'flex';
-      await registry.displayItems();
+      await displayItems();
     } else {
       document.getElementById('email-prompt').style.display            = 'block';
       document.getElementById('session-actions-wrapper').style.display = 'none';
     }
   });
 </script>
+
+
 
 </body>
 </html>
