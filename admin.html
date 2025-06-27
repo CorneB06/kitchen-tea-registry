@@ -42,21 +42,21 @@
             <p><a href="index.html">Back to Registry</a></p>
             <button onclick="deleteAllItems()">Delete All</button>
             <button onclick="resetAllChoices()">Reset All Choices</button>
-            <table id="manage-table">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Item</th>
-                        <th>Example</th>
-                        <th>Selected</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody id="manage-list"></tbody>
-            </table>
+            <div class="table-wrapper">
+                <table id="manage-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Item</th>
+                            <th>Example</th>
+                            <th>Selected</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="manage-list"></tbody>
+                </table>
+            </div>
         </div>
-        
-        
     </div>
     
     <script type="module" src="admin.js"></script>

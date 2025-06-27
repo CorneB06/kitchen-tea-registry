@@ -284,8 +284,6 @@ async function resetAllChoices() {
   }
 }
 
-
-
 function addLinkInputInCell(event, id) {
     event.preventDefault();
     const row = document.querySelector(`#manage-list td[data-id="${id}"]`).parentElement;

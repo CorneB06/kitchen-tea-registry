@@ -1,9 +1,19 @@
 body {
-    font-family: 'Alegreya Sans SC', sans-serif;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
     background-color: #ffffff; 
+    color: #000;
+}
+
+a,
+button,
+input,
+th,
+td {
+  color: #000;
 }
 
 .header-container {
@@ -15,8 +25,9 @@ body {
 }
 
 .header-content {
-    text-align: center;
-    width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
 }
 
 .menu {
@@ -27,10 +38,11 @@ body {
 
 /* Email prompt card */
 #email-prompt {
-  max-width: 400px;
-  margin: 20px auto;
-  padding: 20px;
-  text-align: center;    /* you can leave this here, and drop the inline */
+width: 90%;          /* fills most of the screen on mobile */
+max-width: 400px;    /* caps at your desktop size */
+margin: 1rem auto;   /* vertical spacing + horizontal centering */
+padding: 1rem;
+box-sizing: border-box;
 }
 
 /* Center the header and paragraph */
@@ -55,12 +67,10 @@ body {
   margin: 0.75em 0;   /* space above/below, centered horizontally by flex */
 }
 
-
-
-
 h1, h2 {
     text-align: center;
-    font-family: 'Alegreya Sans SC', sans-serif;
+    font-family: 'Poppins', sans-serif;
+     font-weight: 600;
     color: #4a4e69; /* Retain soft greyish-purple */
 }
 
@@ -94,7 +104,7 @@ th, td {
     border: 1px solid #ccc;
     padding: 8px;
     text-align: left;
-    font-family: 'Alegreya Sans SC', sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 th {
@@ -142,7 +152,7 @@ a:hover {
 
 .dropdown-content a {
     display: block;
-    font-family: 'Alegreya Sans SC', sans-serif;
+    font-family: 'Poppins', sans-serif;
     color: #4a4e69;
     text-decoration: none;
 }
@@ -236,7 +246,7 @@ button {
     border: none;
     border-radius: 8px; /* Rounded corners */
     cursor: pointer;
-    font-family: 'Alegreya Sans SC', sans-serif;
+    font-family: 'Poppins', sans-serif;
     transition: background-color 0.3s ease;
 }
 
@@ -286,7 +296,7 @@ button:hover {
     border: 1px solid #ccc;
     padding: 10px;
     text-align: left;
-    font-family: 'Alegreya Sans SC', sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 #manage-table th {
@@ -355,10 +365,11 @@ button:hover {
 }
 
 #session-actions-container {
-    max-width: 100%;
-    margin: 30px 0 20px 0;
-    text-align: center;
-    position: relative;
+  width: 90%;          /* fills most of the screen on mobile */
+  max-width: 400px;    /* caps at your desktop size */
+  margin: 1rem auto;   /* vertical spacing + horizontal centering */
+  padding: 1rem;
+  box-sizing: border-box;
 }
 
 #session-actions-container button {
@@ -375,7 +386,7 @@ button:hover {
     background-color: #a3bffa;
 }
 body {
-    font-family: 'Alegreya Sans SC', sans-serif;
+    font-family: 'Poppins', sans-serif;
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
@@ -403,7 +414,7 @@ body {
 
 h1, h2 {
     text-align: left;
-    font-family: 'Alegreya Sans SC', sans-serif;
+    font-family: 'Poppins', sans-serif;
     color: #4a4e69; /* Retain soft greyish-purple */
 }
 
@@ -437,7 +448,7 @@ th, td {
     border: 1px solid #ccc;
     padding: 8px;
     text-align: left;
-    font-family: 'Alegreya Sans SC', sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 th {
@@ -485,7 +496,7 @@ a:hover {
 
 .dropdown-content a {
     display: block;
-    font-family: 'Alegreya Sans SC', sans-serif;
+    font-family: 'Poppins', sans-serif;
     color: #4a4e69;
     text-decoration: none;
 }
@@ -579,7 +590,7 @@ button {
     border: none;
     border-radius: 8px; /* Rounded corners */
     cursor: pointer;
-    font-family: 'Alegreya Sans SC', sans-serif;
+    font-family: 'Poppins', sans-serif;
     transition: background-color 0.3s ease;
 }
 
@@ -629,7 +640,7 @@ button:hover {
     border: 1px solid #ccc;
     padding: 10px;
     text-align: left;
-    font-family: 'Alegreya Sans SC', sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 #manage-table th {
@@ -720,7 +731,12 @@ button:hover {
 
 /* Center everything inside the thank-you card */
 #thank-you {
-  text-align: center;
+width: 90%;          /* fills most of the screen on mobile */
+max-width: 400px;    /* caps at your desktop size */
+margin: 1rem auto;   /* vertical spacing + horizontal centering */
+padding: 1rem;
+box-sizing: border-box;
+text-align: center;
 }
 
 /* Explicitly center the thank-you heading */
@@ -746,3 +762,79 @@ button:hover {
   font-size: 1rem;
   cursor: pointer;
 }
+
+.header-content h1 {
+  flex: 1 1 auto;       /* take up remaining space */
+  margin: 0;            /* reset any unwanted margins */
+}
+
+.header-content .menu {
+  flex: 0 0 auto;       /* only as wide as needed */
+  margin-left: auto;    /* push to the right edge */
+}
+
+/* Now force sub-header and image onto their own rows */
+.header-content .sub-header,
+.header-content .palette-image {
+  flex: 1 1 100%;       /* full width below the first row */
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+/* Desktop: center the main header text */
+@media (min-width: 601px) {
+  .header-content h1 {
+    text-align: center;
+    /* since h1 is already flex:1 in desktop, this will center it */
+    margin: 0;   /* reset any left margins */
+  }
+}
+
+
+@media (max-width: 600px) {
+  /* Center the main title and subtitle */
+  .header-content h1,
+  .header-content .sub-header {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media (max-width: 600px) {
+  .header-content {
+    flex-direction: column;
+    align-items: center;  /* center everything in one column */
+  }
+  .header-content .menu {
+    margin-left: 0;       /* remove the desktop “push right” */
+    margin-top: 0.5rem;   /* small gap under the title */
+  }
+}
+
+
+@media (max-width: 600px) {
+  /* Stack and center header elements in order: h1 → menu → sub-header → image */
+  .header-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+}
+
+/* Admin table horizontal scroller */
+.table-wrapper {
+  width: 100%;                /* fill its parent */
+  overflow-x: auto;           /* enable side-scrolling */
+  -webkit-overflow-scrolling: touch; /* smooth scroll on iOS */
+  margin: 1rem 0;             /* optional vertical spacing */
+}
+
+/* Let the table be as wide as its content, triggering the scrollbar */
+.table-wrapper table {
+  width: auto;                /* don’t force 100% */
+  min-width: 700px;           /* adjust as needed for your columns */
+  border-collapse: collapse;  /* keep your existing table styling */
+}
+
